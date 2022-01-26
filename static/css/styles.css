@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Luxurious+Roman&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+html{
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Cardo', serif;
+}
+
+body {
+    font-family: 'Luxurious Roman', cursive;
+}
+
+.material-icons-outlined.md-30 { font-size: 30px; }
+
+.nav-bar{
+    background-color: #000000;
+    color: #ffffff;
+    padding: 10px 20px;
+}
+
+.nav-bar h2{
+    display: inline-block;
+    padding-left: 2px;
+}
+
+.nav-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.nav-bar li {
+    float: left;
+}
+
+li a {
+    display: flex;
+    color: rgb(202, 202, 202);
+    justify-content: center;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+  }
+
+li a:hover{
+    background-color: rgb(102, 102, 102);
+}
+/* ----------- */
+.dashboard{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.div1, .div2, .div3{
+    margin: 5%;
+    border: 2px solid #000000;
+    padding: 2%;
+    text-align: center;
+    width: 20%;
+    height: 15%;
+    background-color: rgb(227, 249, 253);
+}
+
+span.content{
+    font-weight: bolder;
+}

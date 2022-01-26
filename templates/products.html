@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+    <title>Products</title>
+</head>
+<body>
+    <div class="nav-bar">
+        <ul>
+            <li><span class="material-icons-outlined md-30">dashboard</span></li>
+            <li><h2>Olives</h2></li>
+            <li style="float: right;"><a href="{{url_for('insert')}}">Products</a></li>
+            <li style="float: right;"><a href="{{url_for('index')}}">Dashboard</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="insert-new">
+            <div class="buttons">
+                <div class="insert-div">
+                    <button type="button" class="link-1" title='Add New Item' id="modal-closed" onclick="window.location.href = '#modal-opened';"><span class="material-icons-outlined icon">add_circle_outline</span></button>
+                </div>
+                <div class="print-div">
+                    <button type="submit" title="Print Selected" onclick="myFunction()"><span class="material-icons-outlined icon">print</span></button>
+                </div>
+            </div>
+            
+            <div class="modal-container" id="modal-opened">
+                <div class="modal">
+                    <div class="modal__details">
+                        <h1 class="modal__title">Insert New Data</h1>
+                        <form method="post" action="{{ url_for( 'insert' ) }}" name="modal1-form">
+                            <table>
+                                <tr>
+                                    <td><label for="track-no">Tracking no : </label></td>
+                                    <td><input type="text"  name="track-no" value="Nil"><br></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="from-name">From Name* : </label></td>
+                                    <td><input type="text" name="from-name" value="Olives Boutique" required><br></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="from-contact">From Contact* : </label></td>
+                                    <td><input type="tel" value="8904498009" name="from-contact" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="from-address">From Address* : </label></td>
+                                    <td><textarea name="from-address" rows="3" cols="30" required>632/B, 6th cross, 6th main HAL 3rd stage New Thippasandra, Bangalore - 560075</textarea></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="ship-city">Shipment City :</label></td>
+                                    <td><input type="text" name="ship-city" ></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="reciever-name">Reciever Name* :</label></td>
+                                    <td><input type="text" name="reciever-name" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="reciever-address">Reciever Addrss* :</label></td>
+                                    <td><textarea name="reciever-address" rows="3" cols="30" required></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="reciever-contact">Reciever Contact* :</label></td>
+                                    <td><input type="tel" name="reciever-contact" required><br></td>
+                                </tr>    
+                                <tr>
+                                    <td><label for="products-selling-price">Total Selling Price :</label></td>
+                                    <td><input type="number" name="products-selling-price" min="0"></td>
+                                </tr>     
+                                <tr>
+                                    <td><label for="products-cost-price">Total Cost Price :</label></td>
+                                    <td><input type="number" name="products-cost-price" min="0"></td>
+                                </tr>
+                            </table>
+                            <div class="insert">
+                                <input class="input" type="submit" value="INSERT" name="insert" onclick="location.href='#modal-closed'; ">
+                            </div>
+                        </form>
+                    </div>
+                    <a href="#modal-closed" class="link-2"></a>
+                </div>
+            </div>
+        </div>
+        <div class="table-div">
+            <form name="printing" action="{{ url_for( 'print_multiple') }}" method="post">
+                <div class="product-list" style="overflow-x:auto;">
+                <table class="table-products">
+                    <thead>
+                        <tr>
+                            <th class="select">Select</th>
+                            <th class="shipment-id">ID</th>
+                            <th class="task">From Name</th>
+                            <th class="task">From Contact</th>
+                            <th class="task">Date</th>
+                            <th class="task">Shipment City</th>
+                            <th class="task">Reciever Name</th>
+                            <th class="task">Reciever Address</th>
+                            <th class="task">Reciever Contact</th>
+                            <th class="task">total Selling Price</th>
+                            <th class="delete">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="selected-items" name="selected-items" value="{{ row['id'] }}">
+                                </td>
+                                <td class="id">{{ row["id"] }}</td>
+                                <td>{{ row["from_name"] }}</td>
+                                <td>{{ row["from_contact"] }}</td>
+                                <td>{{ row["date"] }}</td>
+                                <td>{{ row["ship_city"] }}</td>
+                                <td>{{ row["reciever_name"] }}</td>
+                                <td>{{ row["reciever_address"] }}</td>
+                                <td>{{ row["reciever_contact"] }}</td>
+                                <td>{{ row["products_selling_price"] }}</td>
+                                <td>
+                                    <button type="submit" value="Del" formaction="{{ url_for( 'delete', id = row['id']) }}"><span class="material-icons-outlined del">delete</span></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+                <button type="submit" id="select-btn" style="border: none;"></button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+<script>
+    function myFunction() {
+      document.getElementById("select-btn").click();
+    }
+    </script>
+</html>
