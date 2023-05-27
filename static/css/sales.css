@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+form {
+  font-family: "Poppins", sans-serif;
+}
+
+button:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+input[type="text"] {
+  width: 25vh;
+  border: none;
+}
+
+input[type="number"] {
+  width: 12vh;
+  border: none;
+}
+
+input {
+  padding: 5px;
+}
+
+label {
+  font-weight: bold;
+}
+
+.table button {
+  border: none;
+  background: none;
+}
+
+.add button {
+  padding: 0.5vh 1vh;
+  background: none;
+  color: black;
+}
+
+.btn-info:hover {
+  background-color: white;
+}
+
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+  background-color: transparent !important;
+}
+
+.add button {
+  border-color: rgb(35, 0, 47);
+}
+
+.add button:hover {
+  background-color: rgb(247, 229, 250);
+  color: black;
+}
+
+.table thead {
+  background-color: rgb(35, 0, 47);
+  color: rgb(251, 244, 252);
+}
+
+.initial-details input{
+  margin-bottom: 25px;
+  border: none;
+  border-bottom: 1px solid rgb(35, 0, 47);
+}
+
+.initial-details input:active,
+.initial-details input:focus {
+  outline: none;
+}

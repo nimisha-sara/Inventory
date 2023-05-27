@@ -1,69 +1,7 @@
 {% extends "base.html" %}
 {% set active_page = "sales" %}
 {% block styles %}
-<link rel="stylesheet" href="">
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
-
-    .table button {
-        border: none;
-        background: none;
-    }
-
-    button:focus {
-        outline: 0;
-        box-shadow: none;
-    }
-
-    .add button {
-        padding: 0.5vh 1vh;
-        background: none;
-        color: black;
-    }
-
-    form {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .btn-info:hover {
-        background-color: white;
-    }
-
-    .btn-info:active:focus {
-        background-color: white !important;
-        outline-color: white !important;
-    }
-
-    .add button {
-        border-color: rgb(35, 0, 47);
-    }
-
-    .add button:hover {
-        background-color: rgb(247, 229, 250);
-        color: black;
-    }
-
-    .table thead {
-        background-color: rgb(35, 0, 47);
-        color: rgb(251, 244, 252);
-    }
-
-    input[type=text] {
-        width: 25vh;
-        padding: 0px 5px;
-        border: none;
-    }
-
-    input[type=number] {
-        width: 12vh;
-        border: none;
-    }
-
-    label {
-        font-weight: bold;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sales.css')}}">
 {% endblock %}
 {% block title %}Sales{% endblock %}
 
@@ -87,45 +25,52 @@
                 </div>
                 <form method="post" action="{{ url_for( 'add_sale' ) }}">
                     <div class="modal-body">
-                        <label for="name">Customer Name: </label>
-                        <input style="padding: 5px;" list="names" name="customer-name" id="name" autocomplete="false">
-                        <datalist id="names">
-                            {% for name in rows['customers'] %}
-                            <option value="{{ name[0] }}">
-                                {% endfor %}
-                        </datalist><br>
-                        <label for="address">Address: </label>
-                        <input style="padding: 5px;" list="addresses" name="address" id="address" autocomplete="false">
-                        <datalist id="addresses">
-                            {% for address in rows['addresses'] %}
-                            <option value="{{ address[0] }}">
-                                {% endfor %}
-                        </datalist><br>
-                        <label for="city-state">City/State: </label>
-                        <input style="padding: 5px;" list="city-states" name="city-state" id="city-state"
-                            autocomplete="false">
-                        <datalist id="city-states">
-                            <option value="City1">
-                        </datalist><br>
-                        <label for="contact">Mobile: </label>
-                        <input list="contacts" name="contact" id="contact" autocomplete="false">
-                        <datalist id="contacts">
-                            {% for contact in rows['contacts'] %}
-                            <option value="{{ contact[0] }}">
-                                {% endfor %}
-                        </datalist><br><br>
+                        <div class="initial-details">
+                            <input list="names" name="customer-name" id="name" autocomplete="false"
+                                placeholder="Customer name">
+                            <datalist id="names">
+                                {% for name in rows['customers'] %}
+                                <option value="{{ name[0] }}">
+                                    {% endfor %}
+                            </datalist><br>
+                            <!-- <label for="address">Address: </label> -->
+                            <input list="addresses" name="address" id="address" autocomplete="false"
+                                placeholder="Address">
+                            <datalist id="addresses">
+                                {% for address in rows['addresses'] %}
+                                <option value="{{ address[0] }}">
+                                    {% endfor %}
+                            </datalist><br>
+                            <!-- <label for="city-state">City/State: </label> -->
+                            <input list="city-states" name="city-state" id="city-state" autocomplete="false"
+                                placeholder="City/State">
+                            <datalist id="city-states">
+                                <option value="City1">
+                            </datalist><br>
+                            <!-- <label for="contact">Mobile: </label> -->
+                            <input list="contacts" name="contact" id="contact" autocomplete="false"
+                                placeholder="Contact No">
+                            <datalist id="contacts">
+                                {% for contact in rows['contacts'] %}
+                                <option value="{{ contact[0] }}">
+                                    {% endfor %}
+                            </datalist><br><br>
+                        </div>
+
                         <table id="product-table" border="1">
                             <thead>
                                 <th style="padding: 5px;">Product Name</th>
-                                <th style="padding: 5px;">Quantity</th>
-                                <th style="padding: 5px;">Rate</th>
+                                <th style="padding: 5px; text-align: center;">Quantity</th>
+                                <th style="padding: 5px; text-align: center;">Rate</th>
                             </thead>
                             <tbody>
                                 {% for i in range(1, 11) %}
                                 <tr>
                                     <td><input type="text" name="prod-{{ i }}"></td>
-                                    <td><input type="number" name="quant-{{ i }}" min="0" value="0"></td>
-                                    <td><input type="number" name="rate-{{ i }}" min="0" value="0"></td>
+                                    <td><input style="padding: 5px; text-align: center;" type="number" name="quant-{{ i }}" min="0"
+                                            value="0"></td>
+                                    <td><input style="padding: 5px; text-align: center;" type="number" name="rate-{{ i }}" min="0"
+                                            value="0"></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -148,7 +93,8 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Date of Purchase</th>
-                    <th scope="col">Address</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Item Count</th>
                     <th scope="col">Bill Amt</th>
                     <th scope="col">Edit</th>
                     <th scope="col">View Details</th>
@@ -160,7 +106,8 @@
                     <th scope="row">{{ row[0] }}</th>
                     <td>{{ row[1] }}</td>
                     <td>{{ row[9] }}</td>
-                    <td>{{ row[2] }}</td>
+                    <td>{{ row[10] }}</td>
+                    <td>{{ row[8] }}</td>
                     <td>{{ row[7] }}</td>
                     <td>
                         <!-- Button trigger modal -->
@@ -212,11 +159,12 @@
                                         </button>
                                     </div>
 
-                                    <div class="modal-body">
-                                        <span style="font-weight: bold;">Date of Purchase: </span>{{ row[9] }} <br>
-                                        <span style="font-weight: bold;">Address: </span>{{ row[2] }} <br>
-                                        <span style="font-weight: bold;">City/State: </span>{{ row[10] }} <br>
-                                        <span style="font-weight: bold;">Contact: </span>{{ row[3] }} <br>
+                                    <div class="modal-body view">
+                                        <p><span style="font-weight: bold;">Date of Purchase: </span>{{ row[9] }} <br>
+                                        </p>
+                                        <p><span style="font-weight: bold;">Address: </span>{{ row[2] }} <br></p>
+                                        <p><span style="font-weight: bold;">City/State: </span>{{ row[10] }} <br></p>
+                                        <p><span style="font-weight: bold;">Contact: </span>{{ row[3] }} <br><br></p>
                                         {% set _products = row[4].split('$$') %}
                                         {% set _quantity = row[5].split(',') %}
                                         {% set _rates = row[6].split(',') %}
@@ -238,11 +186,10 @@
                                                 {% endfor %}
                                             </tbody>
                                         </table>
-                                        <span style="font-weight: bold;">Total Amt: </span>₹ {{ row[7] }}
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        <p><span style="font-weight: bold;">Total Amt: </span>₹ {{ row[7] }}</p>
                                     </div>
 
                                 </div>
@@ -262,8 +209,8 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery.fancytable/dist/fancyTable.min.js"></script>
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        $(".table").fancyTable({
+    $( document ).ready( function () {
+        $( ".table" ).fancyTable( {
             /* Column number for initial sorting*/
             sortColumn: 0,
             /* Setting pagination or enabling */
@@ -271,9 +218,9 @@
             /* Rows per page kept for display */
             perPage: 1,
             globalSearch: true
-        });
+        } );
 
-    });
+    } );
 </script>
 </script>
 

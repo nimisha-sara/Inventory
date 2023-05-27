@@ -7,6 +7,7 @@ today = date.today()
 
 app = Flask(__name__)
 database.createTable()
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 
 @app.route('/')
@@ -26,6 +27,7 @@ def add_sale():
 
             quantity = [int(request.form[f"quant-{i}"]) for i in range(1, 11) if request.form[f"prod-{i}"] != 0]
             rates = [int(request.form[f"rate-{i}"]) for i in range(1, 11) if request.form[f"prod-{i}"] != 0]
+            print(quantity, rates)
             total = sum([quantity[i] * rates[i] for i in range(1, 10)])
 
             products, quantity, rates = "$$".join(products), ','.join(map(str, quantity)), ','.join(map(str, rates))
