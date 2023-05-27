@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% set active_page = "dash" %}
+{% block styles %}
+<link rel="stylesheet" href="">
+<style>
+    
+</style>
+{% endblock %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="dashboard">
+        <div class="div1">
+            <p>Total profits : <br><br><span class="content">₹</span></p>
+        </div>
+        <div class="div2">
+            <p>No of Sales : <br><br><span class="content">  </span></p>
+        </div>
+    </div>
+    
+{% endblock %}
