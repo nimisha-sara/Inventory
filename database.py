@@ -30,6 +30,23 @@ def insert(customer, address, contact, products, quantity, rates, total, product
     connection.close()
 
 
+def update(_id, customer, address, contact, products, quantity, rates, total, product_count, city_state):
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+    cursor.execute(
+        f'''UPDATE OLIVES SET customer=?, address=?, contact=?, products=?, quantity=?, rates=?, total=?, product_count=?, city_state=? WHERE id=?''',
+        (customer, address, contact, products, quantity, rates, total, product_count, city_state, _id))
+    connection.commit()
+    connection.close()
+
+
+def delete(_id):
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+    cursor.execute(f'''DELETE FROM OLIVES WHERE id={_id}''')
+    connection.commit()
+    connection.close()
+
 def view():
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()

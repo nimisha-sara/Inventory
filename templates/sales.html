@@ -23,7 +23,8 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form method="post" action="{{ url_for( 'add_sale' ) }}">
+                <form method="post" action="{{ url_for( 'sales' ) }}">
+                    <input type="number" name="id" value="" hidden>
                     <div class="modal-body">
                         <div class="initial-details">
                             <input list="names" name="customer-name" id="name" autocomplete="false"
@@ -67,10 +68,10 @@
                                 {% for i in range(1, 11) %}
                                 <tr>
                                     <td><input type="text" name="prod-{{ i }}"></td>
-                                    <td><input style="padding: 5px; text-align: center;" type="number" name="quant-{{ i }}" min="0"
-                                            value="0"></td>
-                                    <td><input style="padding: 5px; text-align: center;" type="number" name="rate-{{ i }}" min="0"
-                                            value="0"></td>
+                                    <td><input style="padding: 5px; text-align: center;" type="number"
+                                            name="quant-{{ i }}" min="0" value="0"></td>
+                                    <td><input style="padding: 5px; text-align: center;" type="number"
+                                            name="rate-{{ i }}" min="0" value="0"></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -98,6 +99,7 @@
                     <th scope="col">Bill Amt</th>
                     <th scope="col">Edit</th>
                     <th scope="col">View Details</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,8 +111,8 @@
                     <td>{{ row[10] }}</td>
                     <td>{{ row[8] }}</td>
                     <td>{{ row[7] }}</td>
+                    <!-- edit -->
                     <td>
-                        <!-- Button trigger modal -->
                         <button type="button" class="btn btn-info" data-toggle="modal"
                             data-target="#editModal-{{ row[0] }}"><span class="material-icons-outlined"
                                 style="color: rgb(27, 0, 59);">edit</span></button>
@@ -127,21 +129,89 @@
                                         </button>
                                     </div>
 
-                                    <div class="modal-body">
+                                    <form method="post" action="{{ url_for( 'sales' ) }}">
+                                        <input type="number" name="id" value="{{ row[0] }}" hidden>
+                                        <div class="modal-body">
+                                            <div class="initial-details">
+                                                <input title="Customer Name" list="names" name="customer-name" id="name"
+                                                    autocomplete="false" value="{{ row[1] }}">
+                                                <datalist id="names">
+                                                    {% for name in rows['customers'] %}
+                                                    <option value="{{ name[0] }}">
+                                                        {% endfor %}
+                                                </datalist><br>
+                                                <input title="Customer Address" list="addresses" name="address"
+                                                    id="address" autocomplete="false" value="{{ row[2] }}">
+                                                <datalist id="addresses">
+                                                    {% for address in rows['addresses'] %}
+                                                    <option value="{{ address[0] }}">
+                                                        {% endfor %}
+                                                </datalist><br>
+                                                <input title="Customer City/State" list="city-states" name="city-state"
+                                                    id="city-state" autocomplete="false" value="{{ row[10] }}">
+                                                <datalist id="city-states">
+                                                    <option value="">
+                                                </datalist><br>
+                                                <input title="Customer Contact" list="contacts" name="contact"
+                                                    id="contact" autocomplete="false" value="{{ row[3] }}">
+                                                <datalist id="contacts">
+                                                    {% for contact in rows['contacts'] %}
+                                                    <option value="{{ contact[0] }}">
+                                                        {% endfor %}
+                                                </datalist><br><br>
+                                            </div>
 
-                                    </div>
+                                            <table border="1">
+                                                <thead>
+                                                    <th style="padding: 5px;">Product Name</th>
+                                                    <th style="padding: 5px;">Quantity</th>
+                                                    <th style="padding: 5px;">Rate</th>
+                                                </thead>
+                                                <tbody style="text-align: center;">
+                                                    {% set _products = row[4].split('$$') %}
+                                                    {% set _quantity = row[5].split(',') %}
+                                                    {% set _rates = row[6].split(',') %}
+                                                    {% for j in range(1, _products|length + 1) %}
+                                                    <tr>
+                                                        <td><input style="width: 18vh;" type="text" name="prod-{{ j }}"
+                                                                value="{{ _products[j] }}"></td>
+                                                        <td><input style="width: 11vh" type="number"
+                                                                name="quant-{{ j }}" value="{{ _quantity[j] }}"></td>
+                                                        <td><input style="width: 10vh;" type="number"
+                                                                name="rate-{{ j }}" value="{{ _rates[j] }}"></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    {% for k in range(_products|length + 1, 11) %}
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="prod-{{ k }}" style="width: 18vh">
+                                                        </td>
+                                                        <td>
+                                                            <input style="width: 10vh" type="number"
+                                                                name="quant-{{ k }}" min="0" value="0">
+                                                        </td>
+                                                        <td>
+                                                            <input style="width: 10vh" type="number" name="rate-{{ k }}"
+                                                                min="0" value="0">
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-success">Save</button>
-                                    </div>
-
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" name="edit-sale" class="btn btn-success">Save</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </td>
+                    <!-- view -->
                     <td>
-                        <!-- Button trigger modal -->
                         <button type="button" class="btn btn-info" data-toggle="modal"
                             data-target="#viewModal-{{ row[0] }}"><span class="material-icons-outlined"
                                 style="color: rgb(27, 0, 59);">pageview</span></button>
@@ -195,6 +265,42 @@
                                 </div>
                             </div>
                         </div>
+                    </td>
+                    <!-- delete -->
+                    <td>
+                        <button type="button" class="btn btn-info" data-toggle="modal"
+                            data-target="#delModal-{{ row[0] }}"><span class="material-icons-outlined"
+                                style="color: rgb(27, 0, 59);">delete</span></button>
+
+                        <form method="post" action="{{ url_for( 'sales' ) }}">
+                            <!-- Modal -->
+                            <div class="modal fade" id="delModal-{{ row[0] }}" tabindex="-1" role="dialog"
+                                aria-labelledby=" delModalLabel-{{ row[0] }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="delModalLabel-{{ row[0] }}">
+                                                Customer name: {{ row[1] }}" </h5>
+                                            <input type="text" name="id" value="{{ row[0] }}" hidden>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <h4>Are you sure you want to delete this sale ?</h4>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal">NO</button>
+                                            <button type="submit" name="delete" class="btn btn-success">YES</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
