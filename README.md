@@ -39,9 +39,14 @@ Once you've completed the setup, you can run the application using the following
 
 You can view some demo images of the application below:
 
-![Full view](images/inventory.png)
-
-![order view](images/view.png)
+<div style="display: flex;">
+  <div style="flex: 50%; padding: 10px;">
+    <img src="images/inventory.png" alt="Inventory view" style="max-width: 100%;">
+  </div>
+  <div style="flex: 50%; padding: 10px;">
+    <img src="images/view.png" alt="Order view" style="max-width: 100%;">
+  </div>
+</div>
 
 ## Contributors
 
