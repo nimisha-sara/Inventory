@@ -19,18 +19,21 @@ def createTable():
     connection.close()
 
 
-def insert(customer, address, contact, products, quantity, rates, total, product_count, date, city_state):
+def insert(customer, address, contact, products, quantity, rates, total, 
+           product_count, date, city_state):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute('''INSERT INTO OLIVES
-                        (customer, address, contact, products, quantity, rates, total, product_count, date, city_state) 
+                        (customer, address, contact, products, quantity, rates, total, product_count, date, city_state)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                   (customer, address, contact, products, quantity, rates, total, product_count, date, city_state))
+                   (customer, address, contact, products, quantity, rates,
+                    total, product_count, date, city_state))
     connection.commit()
     connection.close()
 
 
-def update(_id, customer, address, contact, products, quantity, rates, total, product_count, city_state):
+def update(_id, customer, address, contact, products, quantity, rates, total,
+           product_count, city_state):
     connection = sqlite3.connect('database.db')
     cursor = connection.cursor()
     cursor.execute(
@@ -46,6 +49,7 @@ def delete(_id):
     cursor.execute(f'''DELETE FROM OLIVES WHERE id={_id}''')
     connection.commit()
     connection.close()
+
 
 def view():
     connection = sqlite3.connect('database.db')

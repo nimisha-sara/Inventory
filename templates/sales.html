@@ -7,23 +7,29 @@
 
 {% block content %}
 
-<div class="add" style="float: right; margin: 2vh;">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModal"><span
-            class="material-icons-outlined">add</span>Add</button>
+<form method="post" action="{{ url_for( 'sales' ) }}">
 
-    <!-- Modal -->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby=" addModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Add Sale</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <form method="post" action="{{ url_for( 'sales' ) }}">
+    <div class="add" style="float: right; margin: 2vh;">
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModal"><span
+                class="material-icons-outlined">add</span>Add</button>
+
+        <button type="submit" class="btn btn-info" name="print"><span
+            class="material-icons-outlined">print</span> Print</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby=" addModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Add Sale</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+
                     <input type="number" name="id" value="" hidden>
                     <div class="modal-body">
                         <div class="initial-details">
@@ -81,55 +87,57 @@
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         <button type="submit" name="add-sale" class="btn btn-success">Save</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="boot">
-    <div class="table-responsive-md" style="margin: 2vh">
-        <table class="table">
-            <thead class="thead">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Date of Purchase</th>
-                    <th scope="col">Destination</th>
-                    <th scope="col">Item Count</th>
-                    <th scope="col">Bill Amt</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">View Details</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in rows['data'] %}
-                <tr>
-                    <th scope="row">{{ row[0] }}</th>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[9] }}</td>
-                    <td>{{ row[10] }}</td>
-                    <td>{{ row[8] }}</td>
-                    <td>{{ row[7] }}</td>
-                    <!-- edit -->
-                    <td>
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                            data-target="#editModal-{{ row[0] }}"><span class="material-icons-outlined"
-                                style="color: rgb(27, 0, 59);">edit</span></button>
+    <div class="boot">
+        <div class="table-responsive-md" style="margin: 2vh">
+            <table class="table">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col" >#</th>
+                        <th scope="col" style="text-align: center;">Name</th>
+                        <th scope="col" style="text-align: center;">Date of Purchase</th>
+                        <th scope="col" style="text-align: center;">Destination</th>
+                        <th scope="col" style="text-align: center;">Item Count</th>
+                        <th scope="col" style="text-align: center;">Bill Amt</th>
+                        <th scope="col" style="text-align: center;">Edit</th>
+                        <th scope="col" style="text-align: center;">View Details</th>
+                        <th scope="col" style="text-align: center;">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows['data'] %}
+                    <tr>
+                        <th scope="row">
+                            <input type="checkbox" name="selected" value="{{ row[0] }}"
+                                style="width: 20px; height: 20px;">
+                            <label for="selected"> {{ row[0] }}</label>
+                        </th>
+                        <td style="text-align: center;">{{ row[1] }}</td>
+                        <td style="text-align: center;">{{ row[9] }}</td>
+                        <td style="text-align: center;">{{ row[10] }}</td>
+                        <td style="text-align: center;">{{ row[8] }}</td>
+                        <td style="text-align: center;">{{ row[7] }}</td>
+                        <!-- edit -->
+                        <td style="text-align: center;">
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#editModal-{{ row[0] }}"><span class="material-icons-outlined"
+                                    style="color: rgb(27, 0, 59);">edit</span></button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="editModal-{{ row[0] }}" tabindex="-1" role="dialog"
-                            aria-labelledby=" editModalLabel-{{ row[0] }}" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel-{{ row[0] }}">Edit Details</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="editModal-{{ row[0] }}" tabindex="-1" role="dialog"
+                                aria-labelledby=" editModalLabel-{{ row[0] }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel-{{ row[0] }}">Edit Details</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
 
-                                    <form method="post" action="{{ url_for( 'sales' ) }}">
                                         <input type="number" name="id" value="{{ row[0] }}" hidden>
                                         <div class="modal-body">
                                             <div class="initial-details">
@@ -171,7 +179,7 @@
                                                     {% set _products = row[4].split('$$') %}
                                                     {% set _quantity = row[5].split(',') %}
                                                     {% set _rates = row[6].split(',') %}
-                                                    {% for j in range(1, _products|length + 1) %}
+                                                    {% for j in range(0, _products|length + 1) %}
                                                     <tr>
                                                         <td><input style="width: 18vh;" type="text" name="prod-{{ j }}"
                                                                 value="{{ _products[j] }}"></td>
@@ -205,74 +213,75 @@
                                                 data-dismiss="modal">Close</button>
                                             <button type="submit" name="edit-sale" class="btn btn-success">Save</button>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <!-- view -->
-                    <td>
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                            data-target="#viewModal-{{ row[0] }}"><span class="material-icons-outlined"
-                                style="color: rgb(27, 0, 59);">pageview</span></button>
+                        </td>
+                        <!-- view -->
+                        <td style="text-align: center;">
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#viewModal-{{ row[0] }}"><span class="material-icons-outlined"
+                                    style="color: rgb(27, 0, 59);">pageview</span></button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="viewModal-{{ row[0] }}" tabindex="-1" role="dialog"
-                            aria-labelledby=" viewModalLabel-{{ row[0] }}" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="viewModalLabel-{{ row[0] }}"><span
-                                                style="font-weight: bold;">Customer: </span>{{ row[1] }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="viewModal-{{ row[0] }}" tabindex="-1" role="dialog"
+                                aria-labelledby=" viewModalLabel-{{ row[0] }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="viewModalLabel-{{ row[0] }}"><span
+                                                    style="font-weight: bold;">Customer: </span>{{ row[1] }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body view">
+                                            <p><span style="font-weight: bold;">Date of Purchase: </span>{{ row[9] }}
+                                                <br>
+                                            </p>
+                                            <p><span style="font-weight: bold;">Address: </span>{{ row[2] }} <br></p>
+                                            <p><span style="font-weight: bold;">City/State: </span>{{ row[10] }} <br>
+                                            </p>
+                                            <p><span style="font-weight: bold;">Contact: </span>{{ row[3] }} <br><br>
+                                            </p>
+                                            {% set _products = row[4].split('$$') %}
+                                            {% set _quantity = row[5].split(',') %}
+                                            {% set _rates = row[6].split(',') %}
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Product Name</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">Rate</th>
+                                                </thead>
+                                                <tbody>
+                                                    {% for j in range(_products|length) %}
+                                                    <tr>
+                                                        <th scope="row">{{ j+1 }}</th>
+                                                        <td>{{ _products[j] }}</td>
+                                                        <td>{{ _quantity[j] }}</td>
+                                                        <td>{{ _rates[j] }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <p><span style="font-weight: bold;">Total Amt: </span>₹ {{ row[7] }}</p>
+                                        </div>
+
                                     </div>
-
-                                    <div class="modal-body view">
-                                        <p><span style="font-weight: bold;">Date of Purchase: </span>{{ row[9] }} <br>
-                                        </p>
-                                        <p><span style="font-weight: bold;">Address: </span>{{ row[2] }} <br></p>
-                                        <p><span style="font-weight: bold;">City/State: </span>{{ row[10] }} <br></p>
-                                        <p><span style="font-weight: bold;">Contact: </span>{{ row[3] }} <br><br></p>
-                                        {% set _products = row[4].split('$$') %}
-                                        {% set _quantity = row[5].split(',') %}
-                                        {% set _rates = row[6].split(',') %}
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Product Name</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col">Rate</th>
-                                            </thead>
-                                            <tbody>
-                                                {% for j in range(_products|length) %}
-                                                <tr>
-                                                    <th scope="row">{{ j+1 }}</th>
-                                                    <td>{{ _products[j] }}</td>
-                                                    <td>{{ _quantity[j] }}</td>
-                                                    <td>{{ _rates[j] }}</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <p><span style="font-weight: bold;">Total Amt: </span>₹ {{ row[7] }}</p>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <!-- delete -->
-                    <td>
-                        <button type="button" class="btn btn-info" data-toggle="modal"
-                            data-target="#delModal-{{ row[0] }}"><span class="material-icons-outlined"
-                                style="color: rgb(27, 0, 59);">delete</span></button>
+                        </td>
+                        <!-- delete -->
+                        <td>
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                data-target="#delModal-{{ row[0] }}"><span class="material-icons-outlined"
+                                    style="color: rgb(27, 0, 59);">delete</span></button>
 
-                        <form method="post" action="{{ url_for( 'sales' ) }}">
                             <!-- Modal -->
                             <div class="modal fade" id="delModal-{{ row[0] }}" tabindex="-1" role="dialog"
                                 aria-labelledby=" delModalLabel-{{ row[0] }}" aria-hidden="true">
@@ -300,14 +309,14 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js">
@@ -315,8 +324,8 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery.fancytable/dist/fancyTable.min.js"></script>
 <script type="text/javascript">
 
-    $( document ).ready( function () {
-        $( ".table" ).fancyTable( {
+    $(document).ready(function () {
+        $(".table").fancyTable({
             /* Column number for initial sorting*/
             sortColumn: 0,
             /* Setting pagination or enabling */
@@ -324,9 +333,9 @@
             /* Rows per page kept for display */
             perPage: 1,
             globalSearch: true
-        } );
+        });
 
-    } );
+    });
 </script>
 </script>
 
