@@ -73,3 +73,7 @@ label {
 .initial-details input:focus {
   outline: none;
 }
+
+tr{
+    text-align: left;
+}
